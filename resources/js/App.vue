@@ -5,9 +5,11 @@ const rootStore = useRootStore();
 </script>
 
 <template>
-    <loading-indicator v-if="rootStore.showLoader"></loading-indicator>
-    <router-view></router-view>
-    <div id="x__modals"></div>
+   <div :class="{dark:rootStore.darkMode}">
+       <loading-indicator v-if="rootStore.showLoader"></loading-indicator>
+       <router-view></router-view>
+       <div id="x__modals"></div>
+   </div>
 </template>
 
 <style>
