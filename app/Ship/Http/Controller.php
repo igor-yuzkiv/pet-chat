@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ship\Http\Controllers;
+namespace App\Ship\Http;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;

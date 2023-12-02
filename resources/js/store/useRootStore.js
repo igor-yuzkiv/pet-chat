@@ -4,11 +4,7 @@ export const useRootStore = defineStore("root", {
     state  : () => ({
         showLoader: false,
     }),
-    getters: {
-        getLoaderState() {
-            return this.showLoader;
-        }
-    },
+    getters: {},
     actions: {
         toggleLoader(value) {
             this.showLoader = value;

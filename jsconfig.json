@@ -7,9 +7,6 @@
         "paths": {
             "@/*": [
                 "resources/js/*"
-            ],
-            "@ui-kit/*": [
-                "resources/ui-kit/*"
             ]
         },
         "lib": [
