@@ -1,16 +1,29 @@
 <?php
 
-namespace App\Ship\Models;
+namespace App\Containers\User\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Containers\Conversation\Models\Conversation;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ *
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids;
+
+    /**
+     * @var string
+     */
+    protected $keyType = 'string';
 
     /**
      * The attributes that are mass assignable.
@@ -40,6 +53,23 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'password'          => 'hashed',
     ];
+
+    /**
+     * @return BelongsToMany
+     */
+    public function conversations(): BelongsToMany
+    {
+        return $this->belongsToMany(Conversation::class, 'conversation_members', 'user_id', 'conversation_id');
+    }
+
+
+    /**
+     * @return Factory
+     */
+    public static function newFactory(): Factory
+    {
+        return UserFactory::new();
+    }
 }

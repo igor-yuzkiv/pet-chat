@@ -5,7 +5,7 @@ services:
         container_name: pet_all_conversation_redis
         image: redis
         ports:
-            - 26379:6379
+            - 6379:6379
         networks:
             - app-network
 
@@ -18,15 +18,15 @@ services:
         volumes:
             - ./docker/dbdata:/var/lib/mysql
         ports:
-            - '23306:3306'
+            - '3306:3306'
         expose:
-            - '23306'
+            - '3306'
         environment:
             - MYSQL_DATABASE=${DB_DATABASE}
             - MYSQL_USER=${DB_USERNAME}
-            - MYSQL_USER_HOST=${DB_HOST}
+            - MYSQL_USER_HOST=${MYSQL_USER_HOST}
             - MYSQL_PASSWORD=${DB_PASSWORD}
-            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
         networks:
             - app-network
 
