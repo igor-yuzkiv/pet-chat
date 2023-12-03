@@ -4,13 +4,17 @@ import AuthLayout from "@/layouts/auth/AuthLayout.vue";
 import DefaultLayout from "@/layouts/default/DefaultLayout.vue";
 import {ROUTES} from "@/routes/navigation.js"
 
+import authMiddleware from "@/routes/middleware/authMiddleware.js";
+import redirectIfLoggedIn from "@/routes/middleware/redirectIfLoggedIn.js";
+
 const router = createRouter({
     history: createWebHistory(),
     routes : [
         {
-            path     : "/",
-            component: DefaultLayout,
-            children : [
+            path       : "/",
+            component  : DefaultLayout,
+            beforeEnter: [authMiddleware],
+            children   : [
                 {
                     ...ROUTES.home,
                     component: () => import('@/views/home/HomeView.vue'),
@@ -19,9 +23,10 @@ const router = createRouter({
         },
 
         {
-            path     : '/auth',
-            component: AuthLayout,
-            children : [
+            path       : '/auth',
+            component  : AuthLayout,
+            beforeEnter: [redirectIfLoggedIn],
+            children   : [
                 {
                     ...ROUTES.login,
                     component: () => import('@/views/auth/LoginView.vue'),

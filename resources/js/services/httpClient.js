@@ -33,10 +33,10 @@ httpClient.interceptors.request.use((config) => {
         console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
     }
 
-    /*const authToken = localStorage.getItem('token');
+    const authToken = localStorage.getItem('token');
     if (authToken) {
         config.headers['Authorization'] = `Bearer ${authToken}`
-    }*/
+    }
 
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
     config.withCredentials = true;
