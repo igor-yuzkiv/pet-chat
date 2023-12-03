@@ -2,6 +2,7 @@
 
 namespace App\Containers\Conversation\Models;
 
+use App\Containers\Conversation\Enums\ConversationTypeEnum;
 use App\Containers\User\Models\User;
 use Database\Factories\ConversationFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -27,6 +28,20 @@ class Conversation extends Model
      * @var string
      */
     protected $keyType = 'string';
+
+    /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'type'
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'type' => ConversationTypeEnum::class,
+    ];
 
     /**
      * @return HasMany

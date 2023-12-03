@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Containers\Conversation\Enums\MessageTypeEnum;
 use App\Containers\Conversation\Models\Conversation;
 use App\Containers\Conversation\Models\Message;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +26,7 @@ class MessageFactory extends Factory
         return [
             'id'         => fake()->uuid(),
             'from_id'    => $this->faker->word(),
-            'type'       => $this->faker->word(),
+            'type'       => MessageTypeEnum::TEXT,
             'body'       => $this->faker->sentence(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

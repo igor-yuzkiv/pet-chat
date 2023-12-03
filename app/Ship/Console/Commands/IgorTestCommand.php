@@ -12,6 +12,6 @@ class IgorTestCommand extends Command
 
     public function handle(): void
     {
-//          PublicEvent::broadcast()->toOthers();
+
     }
 }

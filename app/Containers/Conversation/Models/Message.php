@@ -2,6 +2,7 @@
 
 namespace App\Containers\Conversation\Models;
 
+use App\Containers\Conversation\Enums\MessageTypeEnum;
 use Database\Factories\MessageFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -34,6 +35,13 @@ class Message extends Model
         "from_id",
         "type",
         "body",
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected $casts = [
+        'type' => MessageTypeEnum::class
     ];
 
     /**
