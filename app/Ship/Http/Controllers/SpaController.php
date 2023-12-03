@@ -2,7 +2,7 @@
 
 namespace App\Ship\Http\Controllers;
 
-use App\Ship\Http\Controller;
+use App\Abstractions\Http\Controller;
 
 /**
  *

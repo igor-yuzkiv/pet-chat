@@ -2,13 +2,16 @@
 
 namespace App\Containers\Conversation\Models;
 
+use App\Abstractions\Filter\HasFilter;
 use App\Containers\Conversation\Enums\ConversationTypeEnum;
+use App\Containers\Conversation\Filters\UserConversationsFilter;
 use App\Containers\User\Models\User;
 use Database\Factories\ConversationFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
@@ -17,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  */
 class Conversation extends Model
 {
-    use HasUuids, HasFactory;
+    use HasUuids, HasFactory, HasFilter;
 
     /**
      * @var string
@@ -44,6 +47,13 @@ class Conversation extends Model
     ];
 
     /**
+     * @var array|string[]
+     */
+    protected array $filters = [
+        'user' => UserConversationsFilter::class
+    ];
+
+    /**
      * @return HasMany
      */
     public function messages(): HasMany
@@ -51,19 +61,14 @@ class Conversation extends Model
         return $this->hasMany(Message::class, 'conversation_id', 'id');
     }
 
+
     /**
-     * @return HasManyThrough
+     * @return BelongsToMany
      */
-    public function members(): HasManyThrough
+    public function members():BelongsToMany
     {
-        return $this->hasManyThrough(
-            User::class,
-            ConversationMember::class,
-            'conversation_id',
-            'id',
-            'id',
-            'user_id'
-        );
+        return $this->belongsToMany(User::class, 'conversation_members', 'conversation_id', 'user_id')
+            ->withPivot('id', 'is_host');
     }
 
     /**

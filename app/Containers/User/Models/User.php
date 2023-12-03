@@ -34,6 +34,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar_url',
     ];
 
     /**
@@ -61,7 +62,8 @@ class User extends Authenticatable
      */
     public function conversations(): BelongsToMany
     {
-        return $this->belongsToMany(Conversation::class, 'conversation_members', 'user_id', 'conversation_id');
+        return $this->belongsToMany(Conversation::class, 'conversation_members', 'user_id', 'conversation_id')
+            ->withPivot('id', 'is_host');
     }
 
 

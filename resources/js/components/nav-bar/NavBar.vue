@@ -1,6 +1,4 @@
 <script setup>
-
-import {Icon} from "@iconify/vue";
 import NavItem from "@/components/nav-bar/NavItem.vue";
 </script>
 
