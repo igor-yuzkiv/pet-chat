@@ -23,6 +23,7 @@ class ConversationController extends ResourceController
     public function index(Request $request): JsonResponse
     {
         $conversations = Conversation::query()
+            ->orderBy('updated_at', 'desc')
             ->whereHas('members', function (Builder $query) {
                 $query->where('user_id', \Auth::id());
             })

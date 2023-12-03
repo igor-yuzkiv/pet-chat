@@ -6,7 +6,7 @@ export function useConversations() {
     const pagination = ref({
         total       : 0,
         count       : 0,
-        per_page    : 9,
+        per_page    : 100,
         current_page: 1,
         total_pages : 1
     });

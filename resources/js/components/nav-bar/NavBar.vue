@@ -1,5 +1,14 @@
 <script setup>
-import NavItem from "@/components/nav-bar/NavItem.vue";
+import NavItem        from "@/components/nav-bar/NavItem.vue";
+import ThemeToggle    from "@/components/theme-toggle/ThemeToggle.vue";
+import {useRootStore} from "@/store/useRootStore.js";
+
+const rootStore = useRootStore();
+
+function toggleDarkMode() {
+    rootStore.setDarkMode(!rootStore.darkMode);
+}
+
 </script>
 
 <template>
@@ -16,7 +25,12 @@ import NavItem from "@/components/nav-bar/NavItem.vue";
                 </div>
             </div>
 
-            <nav-item tag="div" text="Calendar" icon="mdi:cog"/>
+            <div class="w-full px-2 mb-2">
+                <theme-toggle
+                    :model-value="rootStore.darkMode"
+                    @update:model-value="toggleDarkMode"
+                />
+            </div>
         </div>
     </nav>
 </template>
