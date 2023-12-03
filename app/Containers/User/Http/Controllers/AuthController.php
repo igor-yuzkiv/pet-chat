@@ -2,6 +2,8 @@
 
 namespace App\Containers\User\Http\Controllers;
 
+use App\Containers\User\Http\Requests\RegisterRequest;
+use App\Containers\User\Models\User;
 use App\Containers\User\Transformers\UserTransformer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -67,11 +69,18 @@ class AuthController
     }
 
     /**
-     * @param Request $request
-     * @return void
+     * @param RegisterRequest $request
+     * @return JsonResponse
      */
-    public function registration(Request $request)
+    public function registration(RegisterRequest $request): JsonResponse
     {
+        $userData = $request->validated();
+        $userData['password'] = \Hash::make($userData['password']);
+        $user = User::create($userData);
 
+        return fractal($user)
+            ->transformWith(new UserTransformer())
+            ->serializeWith(ArraySerializer::class)
+            ->respond();
     }
 }
