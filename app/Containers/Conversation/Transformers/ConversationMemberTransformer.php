@@ -15,7 +15,7 @@ class ConversationMemberTransformer extends UserTransformer
     public function transform(User $user): array
     {
         return [
-            parent::transform($user),
+            ...parent::transform($user),
             'is_host' => $user->pivot->is_host,
         ];
     }

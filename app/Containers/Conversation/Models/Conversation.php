@@ -4,7 +4,6 @@ namespace App\Containers\Conversation\Models;
 
 use App\Abstractions\Filter\HasFilter;
 use App\Containers\Conversation\Enums\ConversationTypeEnum;
-use App\Containers\Conversation\Filters\UserConversationsFilter;
 use App\Containers\User\Models\User;
 use Database\Factories\ConversationFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -13,7 +12,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  *
@@ -49,9 +47,7 @@ class Conversation extends Model
     /**
      * @var array|string[]
      */
-    protected array $filters = [
-        'user' => UserConversationsFilter::class
-    ];
+    protected array $filters = [];
 
     /**
      * @return HasMany

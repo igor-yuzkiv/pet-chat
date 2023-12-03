@@ -66,8 +66,8 @@ export default {
             }
         },
         fontFamily: {
-            body: ['"Inconsolata"'],
-            sans: ['"Inconsolata"'],
+            body: ['"Archivo"'],
+            sans: ['"Archivo"'],
         },
     },
     plugins: [],
