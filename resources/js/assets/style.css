@@ -23,3 +23,23 @@
 ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-700;
 }
+
+.x-layout-container {
+    @apply flex items-center justify-center relative h-screen w-full overflow-hidden bg-gray-50 text-black dark:bg-woodsmoke-950 dark:text-white;
+}
+
+.x-font-second {
+    font-family: 'Nova Square', sans-serif;
+}
+
+.x-link {
+    @apply text-blue-500 hover:text-blue-700 hover:underline;
+}
+
+.x-input {
+    @apply bg-alabaster-200 placeholder-black dark:bg-alabaster-600 rounded-xl border-none outline-none px-4 py-2 focus:ring-2 focus:ring-woodsmoke-600 focus:ring-opacity-50;
+}
+
+.x-button {
+    @apply py-2 rounded-xl bg-alabaster-900 focus:ring-0 focus:ring-transparent focus:outline-none text-white font-bold text-lg uppercase;
+}
