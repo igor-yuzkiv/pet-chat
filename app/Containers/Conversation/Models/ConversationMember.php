@@ -3,7 +3,10 @@
 namespace App\Containers\Conversation\Models;
 
 use App\Containers\User\Models\User;
+use Database\Factories\ConversationMemberFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ConversationMember extends Model
 {
-    use HasUuids;
+    use HasUuids, HasFactory;
 
     /**
      * @var string
@@ -54,5 +57,12 @@ class ConversationMember extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+    /**
+     * @return Factory
+     */
+    public static function newFactory(): Factory
+    {
+        return ConversationMemberFactory::new();
     }
 }

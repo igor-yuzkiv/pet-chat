@@ -3,7 +3,10 @@
 namespace App\Containers\Conversation\Models;
 
 use App\Containers\User\Models\User;
+use Database\Factories\ConversationFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -13,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  */
 class Conversation extends Model
 {
-    use HasUuids;
+    use HasUuids, HasFactory;
 
     /**
      * @var string
@@ -46,5 +49,13 @@ class Conversation extends Model
             'id',
             'user_id'
         );
+    }
+
+    /**
+     * @return Factory
+     */
+    public static function newFactory(): Factory
+    {
+        return ConversationFactory::new();
     }
 }

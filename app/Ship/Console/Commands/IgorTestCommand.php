@@ -2,8 +2,6 @@
 
 namespace App\Ship\Console\Commands;
 
-use App\Containers\Conversation\Models\Conversation;
-use App\Ship\Events\PublicEvent;
 use Illuminate\Console\Command;
 
 class IgorTestCommand extends Command

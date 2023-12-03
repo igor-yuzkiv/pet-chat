@@ -2,7 +2,10 @@
 
 namespace App\Containers\Conversation\Models;
 
+use Database\Factories\MessageFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,7 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Message extends Model
 {
-    use HasUuids;
+    use HasFactory, HasUuids;
+
     /**
      * @var string
      */
@@ -38,5 +42,13 @@ class Message extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(Conversation::class, "conversation_id", "id");
+    }
+
+    /**
+     * @return Factory
+     */
+    public static function newFactory(): Factory
+    {
+        return MessageFactory::new();
     }
 }
