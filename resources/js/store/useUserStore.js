@@ -1,7 +1,13 @@
 import {defineStore} from "pinia";
 
-export const useUserStore = defineStore("root", {
-    state  : () => ({}),
+export const useUserStore = defineStore("user", {
+    state  : () => ({
+        currentUser: null,
+    }),
     getters: {},
-    actions: {}
+    actions: {
+        setCurrentUser(user) {
+            this.currentUser = user;
+        }
+    }
 });

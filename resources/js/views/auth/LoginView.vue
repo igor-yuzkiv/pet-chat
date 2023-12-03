@@ -1,5 +1,60 @@
 <script setup>
 import {ROUTES} from "@/routes/navigation.js";
+import {reactive, ref} from "vue";
+import * as Yup from "yup";
+import axios from "axios";
+import httpClient from "@/services/httpClient.js";
+import {useUserStore} from "@/store/useUserStore.js";
+import {useRouter} from "vue-router";
+
+const userStore = useUserStore();
+const router = useRouter();
+
+const formValue = reactive({
+    email   : "",
+    password: "",
+})
+
+const errorMessage = ref("");
+
+async function validateForm() {
+    const schema = Yup.object().shape({
+        email   : Yup.string().email().required('Email is required'),
+        password: Yup.string().required('Password is required'),
+    });
+
+    return await schema
+        .validate(formValue, {abortEarly: true})
+        .then((response) => {
+            errorMessage.value = "";
+            return response;
+        })
+        .catch(({message}) => {
+            errorMessage.value = message;
+        })
+}
+
+async function onClickLogin() {
+    if (!await validateForm()) {
+        return;
+    }
+
+    const {user, token} = await axios.get("/sanctum/csrf-cookie")
+        .then(() => httpClient.post("/auth/login", formValue))
+        .then((response) => response?.data ?? {})
+        .catch(() => ({}));
+
+    if (!user || !token) {
+        errorMessage.value = "Invalid credentials";
+        return;
+    }
+
+    localStorage.setItem('token', token)
+    userStore.setCurrentUser(user);
+
+    await router.push({name: ROUTES.home.name})
+}
+
 </script>
 
 <template>
@@ -11,6 +66,7 @@ import {ROUTES} from "@/routes/navigation.js";
                 name="email"
                 placeholder="Email"
                 class="x-input"
+                v-model="formValue.email"
             >
 
             <input
@@ -18,12 +74,21 @@ import {ROUTES} from "@/routes/navigation.js";
                 name="password"
                 placeholder="Password"
                 class="x-input"
+                v-model="formValue.password"
             />
-
-            <div class="flex flex-col items-center justify-center mt-4">
+            <div
+                class="w-full items-center text-center font-bold text-red-500"
+                v-if="errorMessage"
+            >
+                <p>
+                    {{ errorMessage }}
+                </p>
+            </div>
+            <div class="flex flex-col items-center justify-center">
                 <button
                     type="button"
                     class="x-button w-full"
+                    @click="onClickLogin"
                 >
                     Sign In
                 </button>

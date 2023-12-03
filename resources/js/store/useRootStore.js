@@ -10,5 +10,6 @@ export const useRootStore = defineStore("root", {
         toggleLoader(value) {
             this.showLoader = value;
         }
+
     }
 });

@@ -4,7 +4,7 @@ import NavBar from "@/components/nav-bar/NavBar.vue";
 </script>
 
 <template>
-    <div class="x-layout-container">
+    <div class="x-layout-container flex-col">
         <nav-bar/>
         <main
             class="flex ml-20 flex-col flex-grow overflow-hidden rounded-l-3xl p-1 bg-gray-100 dark:bg-gray-800 shadow-sm"

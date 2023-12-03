@@ -25,7 +25,7 @@
 }
 
 .x-layout-container {
-    @apply flex items-center justify-center relative h-screen w-full overflow-hidden bg-gray-50 text-black dark:bg-woodsmoke-950 dark:text-white;
+    @apply flex relative h-screen w-full overflow-hidden bg-gray-50 text-black dark:bg-woodsmoke-950 dark:text-white;
 }
 
 .x-font-second {
