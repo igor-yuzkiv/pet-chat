@@ -1,7 +1,9 @@
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {conversationsApi} from "@/api/conversations.js";
+import {useUserStore} from "@/store/useUserStore.js";
+import {prepareConversationName} from "@/services/helpUtil.js";
 
-export function useConversations() {
+export function useConversationsList() {
     const conversations = ref([]);
     const pagination = ref({
         total       : 0,
@@ -11,13 +13,15 @@ export function useConversations() {
         total_pages : 1
     });
 
+    const userStore = useUserStore();
+
     async function loadConversations(page = null) {
         if (Number.isFinite(page) && page > 0) {
             pagination.value.current_page = page;
         }
 
         const response = await conversationsApi.getList({
-            query: {
+            query   : {
                 pagination: true,
                 page      : pagination.value.current_page,
                 per_page  : pagination.value.per_page,
@@ -40,9 +44,25 @@ export function useConversations() {
         }
     }
 
+    const conversationsToDisplay = computed(() => {
+        return conversations.value
+            .map(item => {
+                const {members, ...rest} = item;
+                const otherMembers = members.filter(member => member.id !== userStore.getCurrentUserId);
+                const logo_url = item?.logo_url ?? otherMembers[0]?.avatar_url;
+
+                return {
+                    ...rest,
+                    name    : prepareConversationName(item, otherMembers),
+                    logo_url: logo_url ?? null,
+                }
+            });
+    })
+
     return {
         conversations,
+        conversationsToDisplay,
         pagination,
-        loadConversations
+        loadConversations,
     }
 }

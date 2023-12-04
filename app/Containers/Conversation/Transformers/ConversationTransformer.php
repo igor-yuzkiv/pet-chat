@@ -3,6 +3,7 @@
 namespace App\Containers\Conversation\Transformers;
 
 use App\Containers\Conversation\Models\Conversation;
+use App\Containers\Message\Transformers\MessageTransformer;
 use App\Utils\TransformersUtil;
 use League\Fractal\Resource\Collection;
 use League\Fractal\TransformerAbstract;
@@ -31,10 +32,12 @@ class ConversationTransformer extends TransformerAbstract
         return [
             'id'                   => $conversation->id,
             'type'                 => $conversation->type,
+            'logo_url'             => $conversation->logo_url,
             'created_at'           => $conversation->created_at,
             'created_at_formatted' => TransformersUtil::dateTimeFormatted($conversation->created_at),
             'updated_at'           => $conversation->updated_at,
             'updated_at_formatted' => TransformersUtil::dateTimeFormatted($conversation->updated_at),
+            'members_count'        => $conversation->members_count,
         ];
     }
 

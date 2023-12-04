@@ -13,7 +13,7 @@ class TransformersUtil
      * @param Carbon $carbon
      * @return string
      */
-    public static function dateTimeFormatted(Carbon $carbon): string
+    public static function dateTimeFormatted(Carbon $carbon, string $format = 'd. M. Y h:i'): string
     {
         if ($carbon->diffInHours() >= 24) {
             return $carbon->format("d. M. Y h:i");

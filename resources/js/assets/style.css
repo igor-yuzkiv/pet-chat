@@ -47,3 +47,7 @@
 .x-button {
     @apply py-2 rounded-xl bg-alabaster-900 focus:ring-0 focus:ring-transparent focus:outline-none text-white font-bold text-lg uppercase;
 }
+
+.x-subtitle {
+    @apply text-gray-500 dark:text-gray-400 text-xs;
+}

@@ -41,7 +41,7 @@ export function ApiResource(uri) {
 
     return {
         uri: this.uri,
-
+        availableIncludes: {},
         getList: (options = {query: {}, includes: [], filters: []}) => {
             const query = options?.query || {};
 
@@ -59,15 +59,15 @@ export function ApiResource(uri) {
             return httpClient.get(`${this.uri}/${id}?${query}`);
         },
 
-        create : (data) => {
+        create: (data) => {
             return httpClient.post(this.uri, data);
         },
 
-        update : (id, data) => {
+        update: (id, data) => {
             return httpClient.put(`${this.uri}/${id}`, data);
         },
 
-        delete : (id) => {
+        delete: (id) => {
             return httpClient.delete(`${this.uri}/${id}`);
         },
 

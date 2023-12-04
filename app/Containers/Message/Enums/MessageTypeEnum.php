@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Containers\Conversation\Enums;
+namespace App\Containers\Message\Enums;
 
 enum MessageTypeEnum: string
 {

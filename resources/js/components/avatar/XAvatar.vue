@@ -11,7 +11,7 @@ defineProps({
     },
     src : {
         type   : String,
-        default: assets.defaultAvatar,
+        default: null,
     },
     name: {
         type   : String,
@@ -33,7 +33,7 @@ const sizeClasses = {
         <img
             :class="sizeClasses[size ?? 'md']"
             class="rounded-xl"
-            :src="src"
+            :src="src ?? assets.defaultAvatar"
             :alt="`${name} avatar`"
         />
     </div>

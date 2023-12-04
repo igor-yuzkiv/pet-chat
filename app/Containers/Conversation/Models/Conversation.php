@@ -4,6 +4,7 @@ namespace App\Containers\Conversation\Models;
 
 use App\Abstractions\Filter\HasFilter;
 use App\Containers\Conversation\Enums\ConversationTypeEnum;
+use App\Containers\Message\Models\Message;
 use App\Containers\User\Models\User;
 use Database\Factories\ConversationFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -34,7 +35,8 @@ class Conversation extends Model
      * @var string[]
      */
     protected $fillable = [
-        'type'
+        'type',
+        'logo_url',
     ];
 
     /**
@@ -61,7 +63,7 @@ class Conversation extends Model
     /**
      * @return BelongsToMany
      */
-    public function members():BelongsToMany
+    public function members(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'conversation_members', 'conversation_id', 'user_id')
             ->withPivot('id', 'is_host');

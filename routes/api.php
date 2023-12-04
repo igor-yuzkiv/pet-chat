@@ -19,5 +19,13 @@ Route::prefix("auth")
 Route::prefix("conversations")
     ->middleware("auth:sanctum")
     ->group(function () {
-        Route::get("", [\App\Containers\Conversation\Http\Controllers\ConversationController::class, "index"]);
+        Route::get("", [\App\Containers\Conversation\Http\Controllers\ConversationsController::class, "index"]);
+        Route::get("{conversation}", [\App\Containers\Conversation\Http\Controllers\ConversationsController::class, "show"]);
+    });
+
+
+Route::prefix("messages")
+    ->middleware("auth:sanctum")
+    ->group(function () {
+        Route::get("", [\App\Containers\Message\Http\Controllers\MessagesController::class, "index"]);
     });

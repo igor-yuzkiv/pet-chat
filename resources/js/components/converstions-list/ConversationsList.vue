@@ -1,6 +1,7 @@
 <script setup>
 import ConversationsListItem from "@/components/converstions-list/ConversationsListItem.vue";
 
+defineEmits(['item:click'])
 defineProps({
     conversations: {
         type    : Array,
@@ -14,6 +15,8 @@ defineProps({
         <li
             v-for="conversation in conversations"
             :key="conversation.id"
+            class="rounded-2xl"
+            @click="$emit('item:click', conversation)"
         >
             <conversations-list-item :conversation="conversation"/>
         </li>

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Containers\Conversation\Enums\MessageTypeEnum;
 use App\Containers\Conversation\Models\Conversation;
-use App\Containers\Conversation\Models\Message;
+use App\Containers\Message\Enums\MessageTypeEnum;
+use App\Containers\Message\Models\Message;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 

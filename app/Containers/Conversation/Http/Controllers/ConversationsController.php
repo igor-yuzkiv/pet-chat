@@ -9,12 +9,11 @@ use App\Containers\Conversation\Transformers\ConversationTransformer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use League\Fractal\Serializer\ArraySerializer;
 
 /**
  *
  */
-class ConversationController extends ResourceController
+class ConversationsController extends ResourceController
 {
     /**
      * @param Request $request
@@ -36,6 +35,15 @@ class ConversationController extends ResourceController
 
         return fractal($conversations)
             ->withResourceName('data')
+            ->parseIncludes($this->getIncludes($request))
+            ->serializeWith(DataArraySerializer::class)
+            ->transformWith(new ConversationTransformer())
+            ->respond();
+    }
+
+    public function show(Conversation $conversation, Request $request)
+    {
+        return fractal($conversation)
             ->parseIncludes($this->getIncludes($request))
             ->serializeWith(DataArraySerializer::class)
             ->transformWith(new ConversationTransformer())

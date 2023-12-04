@@ -12,7 +12,7 @@ return new class extends Migration {
 
             $table->string('conversation_id');
             $table->string("from_id");
-            $table->string('type')->default(\App\Containers\Conversation\Enums\MessageTypeEnum::TEXT->value);
+            $table->string('type')->default(\App\Containers\Message\Enums\MessageTypeEnum::TEXT->value);
             $table->text('body')->nullable();
 
             $table->foreign('conversation_id')
