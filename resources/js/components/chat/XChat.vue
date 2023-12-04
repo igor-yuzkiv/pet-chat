@@ -1,6 +1,6 @@
 <script setup>
 import XButton from "@/components/button/XButton.vue";
-import {computed, reactive, watch} from "vue";
+import {computed, nextTick, reactive, ref, watch} from "vue";
 import {useUserStore} from "@/store/useUserStore.js";
 import {prepareConversationName} from "@/services/helpUtil.js";
 import XChatSkeleton from "@/components/chat/XChatSkeleton.vue";
@@ -8,6 +8,8 @@ import {useRootStore} from "@/store/useRootStore.js";
 import {useConversation} from "@/composables/useConversation.js";
 import {useMessagesList} from "@/composables/useMessagesList.js";
 import XAvatar from "@/components/avatar/XAvatar.vue";
+import XChatMessage from "@/components/chat/XChatMessage.vue";
+import XChatForm from "@/components/chat/XChatForm.vue";
 
 const props = defineProps({
     conversationId: {
@@ -19,6 +21,8 @@ const props = defineProps({
 const rootStore = useRootStore();
 const userStore = useUserStore();
 
+
+const messagesContainerRef = ref(null);
 const flags = reactive({isLoaded: false});
 
 const {conversation, loadConversation} = useConversation();
@@ -76,11 +80,24 @@ function toggleLoading(value = null) {
     rootStore.toggleLoader(flags.isLoaded);
 }
 
+function onMsgContainerMounted(el) {
+    messagesContainerRef.value = el;
+    nextTick(() => scrollMsgContainerToBottom())
+}
+
+function scrollMsgContainerToBottom() {
+    if (messagesContainerRef.value) {
+        messagesContainerRef.value.scrollTop = messagesContainerRef.value.scrollHeight;
+    }
+}
+
 watch(() => props.conversationId, (value) => {
     toggleLoading();
     Promise
         .all([loadConversation(value), loadConversationMessages(value)])
-        .finally(toggleLoading)
+        .finally(() => {
+            toggleLoading(false);
+        })
 })
 </script>
 
@@ -124,7 +141,10 @@ watch(() => props.conversationId, (value) => {
             </div>
 
 
-            <div class="flex flex-col flex-grow overflow-auto">
+            <div
+                class="flex flex-col flex-grow overflow-auto"
+                :ref="(el) => onMsgContainerMounted(el)"
+            >
                 <div
                     v-for="(group, index) in messagesGroups"
                     class="flex flex-col w-full my-2"
@@ -133,32 +153,15 @@ watch(() => props.conversationId, (value) => {
                 >
                     <div
                         class="flex items-end"
-                        :class="{
-                            'flex-row': group.isCurrentUser,
-                            'flex-row-reverse': !group.isCurrentUser
-                        }"
+                        :class="{'flex-row': group.isCurrentUser, 'flex-row-reverse': !group.isCurrentUser}"
                     >
                         <div class="flex flex-col">
-                            <div
+                            <x-chat-message
                                 v-for="message in group.messages"
                                 :key="message.id"
-                                class="flex flex-col w-full p-2 rounded-xl mt-1"
-                                :class="{'bg-blue-500': group.isCurrentUser, 'bg-shark-800': !group.isCurrentUser}"
-                            >
-                                <div class="flex">
-                                    {{ message.body }}
-                                </div>
-
-                                <div
-                                    class="flex items-center text-xs"
-                                    :class="{
-                                        'justify-start text-gray-50': group.isCurrentUser,
-                                        'justify-end text-gray-400': !group.isCurrentUser
-                                    }"
-                                >
-                                    <span>{{ message.time }}</span>
-                                </div>
-                            </div>
+                                :message="message"
+                                :is-current-user="group.isCurrentUser"
+                            />
                         </div>
 
                         <x-avatar class="mx-2" size="lg" :src="group.user.avatar_url">
@@ -167,6 +170,10 @@ watch(() => props.conversationId, (value) => {
                     </div>
                 </div>
             </div>
+
+            <x-chat-form
+
+            />
         </div>
 
         <div class="flex items-center justify-center w-full h-full" v-else>
